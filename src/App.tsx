@@ -7,8 +7,10 @@ import {
 import { Suspense, lazy, useState } from "react";
 import HomeLayout from "@/layout/home";
 import "./App.css";
+import Loading from "./pages/Loading";
 
 const LoginPage = lazy(() => import("@/pages/Login"));
+const RegisterPage = lazy(() => import("@/pages/Register"));
 
 function App() {
   const [authenticate, setAuthenticate] = useState(false);
@@ -19,7 +21,7 @@ function App() {
       path: "/",
       element: authenticate ? (
         <HomeLayout>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loading />}>
             <Outlet />
           </Suspense>
         </HomeLayout>
@@ -36,8 +38,16 @@ function App() {
     {
       path: "/login",
       element: (
-        <Suspense fallback={<div>Loading Login...</div>}>
+        <Suspense fallback={<Loading />}>
           <LoginPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/register",
+      element: (
+        <Suspense fallback={<Loading />}>
+          <RegisterPage />
         </Suspense>
       ),
     },

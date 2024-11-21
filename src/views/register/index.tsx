@@ -30,6 +30,7 @@ const Register: React.FC = () => {
       name: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
@@ -97,28 +98,6 @@ const Register: React.FC = () => {
                   )}
                 />
 
-                {/* Phone Field */}
-                <FormField
-                  control={form.control}
-                  name="phone"
-                  render={({ field }) => (
-                    <FormItem className="grid gap-2">
-                      <FormLabel htmlFor="phone">Phone Number</FormLabel>
-                      <FormControl>
-                        <PhoneInput {...field} defaultCountry="TR" />
-                        {/* <Input
-                          id="phone"
-                          placeholder="555-123-4567"
-                          type="tel"
-                          autoComplete="tel"
-                          {...field}
-                        /> */}
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
                 {/* Password Field */}
                 <FormField
                   control={form.control}
@@ -127,8 +106,9 @@ const Register: React.FC = () => {
                     <FormItem className="grid gap-2">
                       <FormLabel htmlFor="password">Password</FormLabel>
                       <FormControl>
-                        <PasswordInput
+                        <Input
                           id="password"
+                          type="password"
                           placeholder="******"
                           autoComplete="new-password"
                           {...field}
@@ -149,8 +129,9 @@ const Register: React.FC = () => {
                         Confirm Password
                       </FormLabel>
                       <FormControl>
-                        <PasswordInput
+                        <Input
                           id="confirmPassword"
+                          type="password"
                           placeholder="******"
                           autoComplete="new-password"
                           {...field}
@@ -169,7 +150,7 @@ const Register: React.FC = () => {
           </Form>
           <div className="mt-4 text-center text-sm">
             Already have an account?{" "}
-            <a href="#" className="underline">
+            <a href="/login" className="underline">
               Login
             </a>
           </div>
@@ -179,4 +160,4 @@ const Register: React.FC = () => {
   );
 };
 
-export default Login;
+export default Register;

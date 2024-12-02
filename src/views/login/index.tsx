@@ -117,7 +117,7 @@ const Login: React.FC = () => {
           </Form>
           <div className="mt-4 text-center text-sm">
             Don&apos;t have an account?{" "}
-            <a href="#" className="underline">
+            <a href="/register" className="underline">
               Sign up
             </a>
           </div>

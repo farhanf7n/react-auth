@@ -3,7 +3,7 @@ import { FC } from "react";
 const Loading: FC = () => {
   return (
     <>
-      <section className="bg-zinc-100 relative place-items-center grid h-screen w-screen gap-4">
+      <section className="relative place-items-center grid h-screen w-screen gap-4">
         <div className="bg-zinc-200 w-48 h-48  absolute animate-ping rounded-full delay-5s shadow-xl"></div>
         <div className="bg-zinc-300 w-32 h-32 absolute animate-ping rounded-full shadow-xl"></div>
         <div className="bg-zinc-400 w-24 h-24 absolute animate-pulse rounded-full shadow-xl"></div>

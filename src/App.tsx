@@ -11,6 +11,7 @@ import Loading from "./pages/Loading";
 
 const LoginPage = lazy(() => import("@/pages/Login"));
 const RegisterPage = lazy(() => import("@/pages/Register"));
+const ForgotPassword = lazy(() => import("@/pages/ForgotPassword"));
 
 function App() {
   const [authenticate, setAuthenticate] = useState(false);
@@ -48,6 +49,14 @@ function App() {
       element: (
         <Suspense fallback={<Loading />}>
           <RegisterPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/forgot-password",
+      element: (
+        <Suspense fallback={<Loading />}>
+          <ForgotPassword />
         </Suspense>
       ),
     },

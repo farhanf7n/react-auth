@@ -4,7 +4,7 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from "react-router-dom";
-import { Suspense, lazy, useState } from "react";
+import { Suspense, lazy } from "react";
 import HomeLayout from "@/layout/home";
 import "./App.css";
 import Loading from "./pages/Loading";
@@ -14,7 +14,7 @@ const RegisterPage = lazy(() => import("@/pages/Register"));
 const ForgotPassword = lazy(() => import("@/pages/ForgotPassword"));
 
 function App() {
-  const [authenticate, setAuthenticate] = useState(false);
+  // const [authenticate, setAuthenticate] = useState(false);
 
   // Move router creation inside the component to access authenticate state
   const router = createBrowserRouter([

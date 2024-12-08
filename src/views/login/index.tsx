@@ -1,8 +1,11 @@
-import React from "react";
+"use client";
+
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { api } from "@/lib/axios";
+import { useNavigate } from "react-router-dom";
 
 import {
   Form,
@@ -21,9 +24,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { formSchema } from "@/types";
 
-const Login: React.FC = () => {
+const formSchema = z.object({
+  email: z.string().email({ message: "Invalid email address" }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters" }),
+});
+
+export default function Login() {
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,16 +44,18 @@ const Login: React.FC = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      // Assuming an async login function
-      console.log(values);
-      toast(
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      );
-    } catch (error) {
-      console.error("Form submission error", error);
-      toast.error("Failed to submit the form. Please try again.");
+      const response = await api.post("/login", {
+        email: values.email,
+        password: values.password,
+      });
+
+      localStorage.setItem("token", response.data.token);
+      toast.success("Login successful!");
+
+      navigate("/dashboard");
+    } catch (error: any) {
+      console.error("Login error:", error);
+      toast.error(error.response?.data?.message || "Invalid credentials");
     }
   }
 
@@ -125,6 +137,4 @@ const Login: React.FC = () => {
       </Card>
     </div>
   );
-};
-
-export default Login;
+}

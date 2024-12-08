@@ -4,6 +4,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { api } from "@/lib/axios";
 
 import {
   Form,
@@ -38,12 +39,16 @@ export default function ForgotPassword() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      // Assuming a function to send reset email
-      console.log(values);
+      const response = await api.post("/forget-password", {
+        email: values.email,
+      });
+
       toast.success("Password reset email sent. Please check your inbox.");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error sending password reset email", error);
-      toast.error("Failed to send password reset email. Please try again.");
+      toast.error(
+        error.response?.data?.message || "Failed to send password reset email"
+      );
     }
   }
 

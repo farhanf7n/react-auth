@@ -1,8 +1,11 @@
+"use client";
+
 import React from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 import {
   Form,
@@ -21,9 +24,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { formSchema } from "@/types";
+import { registerFormSchema as formSchema } from "@/types";
+import { api } from "@/lib/axios";
 
 const Register: React.FC = () => {
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,16 +41,30 @@ const Register: React.FC = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      // Assuming an async login function
-      console.log(values);
-      toast(
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
+      console.log("Submitting registration with values:", values);
+
+      const response = await api.post("/register", {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+      });
+
+      console.log("Registration response:", response);
+
+      localStorage.setItem("token", response.data.token);
+      toast.success("Registration successful!");
+      navigate("/sparkles");
+    } catch (error: any) {
+      console.error("Registration error details:", {
+        error,
+        response: error.response,
+        request: error.request,
+        message: error.message,
+      });
+
+      toast.error(
+        error.response?.data?.message || error.message || "Registration failed"
       );
-    } catch (error) {
-      console.error("Form submission error", error);
-      toast.error("Failed to submit the form. Please try again.");
     }
   }
 
